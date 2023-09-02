@@ -1,24 +1,34 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Welcome from "./pages/Welcome";
-import Details from "./pages/Details";
-import { Center, Flex } from "@chakra-ui/react";
-import Confirmation from "./pages/Confirmation";
+import logo from "./logo.svg";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-const App = () => {
+import { Chatbot } from "react-chatbot-kit";
+import config from "./config";
+import MessageParser from "./parser";
+import ActionProvider from "./action";
+import "./App.css";
+import "react-chatbot-kit/build/main.css";
+import Landing from "./components/Landing";
+import ExitPage from "./components/ExitPage";
+
+function App() {
   return (
     <BrowserRouter>
-      <Center>
-        <Flex w={"md"} direction={"column"} pt={"20"}>
-          <Routes>
-            <Route path="/" element={<Welcome />} />
-            <Route path="/details" element={<Details />} />
-            <Route path="/confirmed" element={<Confirmation />} />
-          </Routes>{" "}
-        </Flex>
-      </Center>
+      <Routes>
+        <Route element={<Landing />} path="/" />
+        <Route element={<ExitPage />} path="/exit" />
+        <Route
+          element={
+            <Chatbot
+              config={config}
+              messageParser={MessageParser}
+              actionProvider={ActionProvider}
+            />
+          }
+          path="/chatbot"
+        />
+      </Routes>
     </BrowserRouter>
   );
-};
+}
 
 export default App;
